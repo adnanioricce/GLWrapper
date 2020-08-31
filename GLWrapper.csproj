@@ -16,6 +16,9 @@
     <None Update="Assets\Shaders\basicFrag.shader">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\Shaders\basicVertex.shader">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Shaders\lightningFragment.shader">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

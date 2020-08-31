@@ -18,15 +18,17 @@ namespace GLWrapper
             var lamp = vertexArray.Lamp;
             GL.BindVertexArray(vertexArray.Id);
             vertexArray.Shader[0].Use();
-            vertexArray.Shader[0].SetProjection(Ioc.Camera);            
+            vertexArray.Shader[0].SetProjection(Ioc.Camera);
             vertexArray.Shader[0].SetVector3("objectColor", new Vector3(1.0f, 0.5f, 0.31f));
             vertexArray.Shader[0].SetVector3("lightColor", new Vector3(1.0f, 1.0f, 1.0f));
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
-            GL.BindVertexArray(lamp.Id);
+            vertexArray.Shader[0].SetVector3("lightPos", lamp.Position);
+
+            GL.DrawArrays(PrimitiveType.Triangles, 0, 36);            
+            GL.BindVertexArray(lamp.Id);            
             lamp.Shader.Use();
             Matrix4 lampMatrix = Matrix4.Identity;
             lampMatrix *= Matrix4.CreateScale(0.2f);
-            lampMatrix *= Matrix4.CreateTranslation(Ioc.Camera.LightPosition);
+            lampMatrix *= Matrix4.CreateTranslation(lamp.Position);
             lamp.Shader.SetMatrix4("model", lampMatrix);
             lamp.Shader.SetMatrix4("view", Ioc.Camera.View);
             lamp.Shader.SetMatrix4("projection", Ioc.Camera.Projection);

@@ -12,7 +12,7 @@ namespace GLWrapper
         public virtual List<ShaderProgram> Shader { get; set; } = new List<ShaderProgram>();
         public virtual List<Texture> Textures { get { return _textures; } }
         public virtual ElementBuffer ElementBuffer { get; set; }
-        public virtual Lamp Lamp { get; set; }
+        public virtual Light Lamp { get; set; }
         public Camera Camera { get; set; }
         private readonly List<VertexAttribute> _vertexAttributes = new List<VertexAttribute>();        
         protected VertexArray(int vertexArrayId)

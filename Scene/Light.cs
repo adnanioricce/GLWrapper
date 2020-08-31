@@ -4,13 +4,13 @@ using System.Runtime.InteropServices;
 
 namespace GLWrapper
 {
-    public class Lamp
+    public class Light
     {
         public int Id { get; protected set; }
         public Vector3 Position { get; set; }
         public VertexBuffer VertexBuffer { get; set; }
         public ShaderProgram Shader { get; set; }
-        protected Lamp(int id)
+        protected Light(int id)
         {
             Id = id;
         }
@@ -22,10 +22,10 @@ namespace GLWrapper
         {
             GL.BindVertexArray(0);
         }        
-        public static Lamp CreateLamp()
+        public static Light CreateLight()
         {
             var lampId = GL.GenVertexArray();
-            var lamp = new Lamp(lampId);
+            var lamp = new Light(lampId);
             return lamp;
         }
     }

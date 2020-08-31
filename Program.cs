@@ -43,37 +43,45 @@ namespace GLWrapper
         }
         public static void DrawCubeWithLightning(GameWindow game)
         {
-            var vertices = GetCubeData().Select(v => new Vertex(v))
-                                        .ToArray();
+            var lightPosition = new Vector3(1.2f, 1.0f, 2.0f);
+            var vertices = GetCubeDataWithNormals();
             VertexBuffer vbo = VertexBuffer.CreateVertexObject(vertices);
-            ShaderProgram lightningShader = ShaderProgram.CreateShaderProgram("Assets/Shaders/lampVertex.shader", "Assets/Shaders/lightningFragment.shader");
-            ShaderProgram lampShader = ShaderProgram.CreateShaderProgram("Assets/Shaders/lampVertex.shader", "Assets/Shaders/basicFrag.shader");
+            ShaderProgram lightningShader = ShaderProgram.CreateShaderProgram("Assets/Shaders/basicVertex.shader", "Assets/Shaders/basicFrag.shader");
+            ShaderProgram lampShader = ShaderProgram.CreateShaderProgram("Assets/Shaders/lampVertex.shader", "Assets/Shaders/lightningFragment.shader");
             VertexArray vaoModel = VertexArray.CreateVertexArray();
             vaoModel.Bind();
             vbo.Bind();
-            lightningShader.SetVertexAttributes(GetLightedAttributes());            
+            lightningShader.Use();
+            lightningShader.SetVector3("objectColor", new Vector3(1.0f, 0.5f, 0.31f));
+            lightningShader.SetVector3("lightColor", new Vector3(1.0f, 1.0f, 1.0f));
+            lightningShader.SetVector3("lightPos", lightPosition);
+            lightningShader.SetVertexAttributes(new VertexAttribute("aPosition", 3, VertexAttribPointerType.Float, Vertex.Size, 0));
             vaoModel.Camera = Ioc.Camera;
             vaoModel.Shader.AddRange(new[] { lightningShader });
             vaoModel.VertexBuffer = vbo;
-            Ioc.Camera.LightPosition = new Vector3(1.2f, 1.0f, 2.0f);
-            game.AddVertexArrays(vaoModel);            
-            var lamp = Lamp.CreateLamp();
-            lamp.Shader = lampShader;            
-            lamp.Bind();
+            game.AddVertexArrays(vaoModel);
+            var vaoLight = Light.CreateLight();
+            vaoLight.Bind();
             vbo.Bind();
-            lampShader.SetVertexAttributes(GetLightedAttributes());
-            vaoModel.Lamp = lamp;
+            lampShader.Use();
+            lampShader.SetVertexAttributes(new VertexAttribute("aPosition", 3, VertexAttribPointerType.Float, Vertex.Size, 0),
+                                           new VertexAttribute("aNormal", 3, VertexAttribPointerType.Float, Vertex.Size, 3 * sizeof(float)));
+            vaoLight.Shader = lampShader;
+            vaoLight.VertexBuffer = vbo;
+            vaoLight.Position = lightPosition;
+            vaoModel.Lamp = vaoLight;            
         }
         public static VertexAttribute[] GetLightedAttributes()
         {
             return new VertexAttribute[]
             {
-                new VertexAttribute("aPosition", 3, VertexAttribPointerType.Float, Vertex.Size,0)                
+                new VertexAttribute("aPosition", 3, VertexAttribPointerType.Float, Vertex.Size,0),
+                new VertexAttribute("aNormal", 3, VertexAttribPointerType.Float, Vertex.Size,3 * sizeof(float))
             };
         }        
         public static VertexAttribute[] GetAttributes()
         {
-            return new VertexAttribute[] 
+            return new VertexAttribute[]
             {
                 new VertexAttribute("aPosition", 3, VertexAttribPointerType.Float, ColoredTexturedVertex.Size, 0),
                 new VertexAttribute("vColor", 4, VertexAttribPointerType.Float, ColoredTexturedVertex.Size, 3 * sizeof(float)),
@@ -96,6 +104,53 @@ namespace GLWrapper
                 new Vector3(-1.3f,1.0f,-1.5f),
             };
         }
+        static Vertex[] GetCubeDataWithNormals()
+        {
+           return new Vertex [] 
+           { 
+                new Vertex(new Vector3(-0.5f, -0.5f, -0.5f),new Vector3(0.0f,  0.0f, -1.0f)),
+                new Vertex(new Vector3(0.5f, -0.5f, -0.5f), new Vector3(0.0f,  0.0f, -1.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f, -0.5f), new Vector3(0.0f,  0.0f, -1.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f, -0.5f), new Vector3( 0.0f,  0.0f, -1.0f)),
+                new Vertex(new Vector3(-0.5f,  0.5f, -0.5f), new Vector3(0.0f,  0.0f, -1.0f)),
+                new Vertex(new Vector3(-0.5f, -0.5f, -0.5f), new Vector3(0.0f,  0.0f, -1.0f)),
+
+                new Vertex(new Vector3(-0.5f, -0.5f,  0.5f), new Vector3(0.0f,  0.0f,  1.0f)),
+                new Vertex(new Vector3(0.5f, -0.5f,  0.5f), new Vector3(0.0f,  0.0f,  1.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f,  0.5f), new Vector3(0.0f,  0.0f,  1.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f,  0.5f), new Vector3(0.0f,  0.0f,  1.0f)),
+                new Vertex(new Vector3(-0.5f,  0.5f,  0.5f), new Vector3(0.0f,  0.0f,  1.0f)),
+                new Vertex(new Vector3(-0.5f, -0.5f,  0.5f), new Vector3(0.0f,  0.0f,  1.0f)),
+
+                new Vertex(new Vector3(-0.5f,  0.5f,  0.5f), new Vector3(-1.0f,  0.0f,  0.0f)),
+                new Vertex(new Vector3(-0.5f,  0.5f, -0.5f), new Vector3( -1.0f,  0.0f,  0.0f)),
+                new Vertex(new Vector3(-0.5f, -0.5f, -0.5f), new Vector3(-1.0f,  0.0f,  0.0f)),
+                new Vertex(new Vector3(-0.5f, -0.5f, -0.5f), new Vector3(-1.0f,  0.0f,  0.0f)),
+                new Vertex(new Vector3(-0.5f, -0.5f,  0.5f), new Vector3(-1.0f,  0.0f,  0.0f)),
+                new Vertex(new Vector3(-0.5f,  0.5f,  0.5f), new Vector3(-1.0f,  0.0f,  0.0f)),
+
+                new Vertex(new Vector3(0.5f,  0.5f,  0.5f), new Vector3(1.0f,  0.0f,  0.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f, -0.5f), new Vector3(1.0f,  0.0f,  0.0f)),
+                new Vertex(new Vector3(0.5f, -0.5f, -0.5f), new Vector3(1.0f,  0.0f,  0.0f)),
+                new Vertex(new Vector3(0.5f, -0.5f, -0.5f), new Vector3(1.0f,  0.0f,  0.0f)),
+                new Vertex(new Vector3(0.5f, -0.5f,  0.5f), new Vector3(1.0f,  0.0f,  0.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f,  0.5f), new Vector3(1.0f,  0.0f,  0.0f)),
+
+                new Vertex(new Vector3(-0.5f, -0.5f, -0.5f),new Vector3(0.0f, -1.0f,  0.0f)),
+                new Vertex(new Vector3(0.5f, -0.5f, -0.5f),new Vector3(0.0f, -1.0f,  0.0f)),
+                new Vertex(new Vector3(0.5f, -0.5f,  0.5f),new Vector3(0.0f, -1.0f,  0.0f)),
+                new Vertex(new Vector3(0.5f, -0.5f,  0.5f),new Vector3(0.0f, -1.0f,  0.0f)),
+                new Vertex(new Vector3(-0.5f, -0.5f,  0.5f),new Vector3(0.0f, -1.0f,  0.0f)),
+                new Vertex(new Vector3(-0.5f, -0.5f, -0.5f), new Vector3(0.0f, -1.0f,  0.0f)),
+
+                new Vertex(new Vector3(-0.5f,  0.5f, -0.5f), new Vector3(0.0f,  1.0f,  0.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f, -0.5f), new Vector3(0.0f,  1.0f,  0.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f,  0.5f), new Vector3(0.0f,  1.0f,  0.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f,  0.5f), new Vector3(0.0f,  1.0f,  0.0f)),
+                new Vertex(new Vector3(-0.5f,  0.5f,  0.5f), new Vector3(0.0f,  1.0f,  0.0f)),
+                new Vertex(new Vector3(-0.5f,  0.5f, -0.5f), new Vector3(0.0f,  1.0f,  0.0f))
+           };
+    }
         static ColoredTexturedVertex[] GetCubeData()
         {
             return new ColoredTexturedVertex[]

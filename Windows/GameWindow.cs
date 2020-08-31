@@ -51,11 +51,7 @@ namespace GLWrapper
                 _time = 0.0;
             }
             _velocity += 0.1;
-            _time += e.Time * _velocity;
-            //_vertexArrays.ForEach(vertexArray =>
-            //{
-                //Ioc.Camera.Model = Matrix4.CreateRotationY(-(float)MathHelper.DegreesToRadians(_time)) * Matrix4.CreateRotationX(-(float)MathHelper.DegreesToRadians(_time));
-            //});
+            _time += e.Time * _velocity;           
             Ioc.Camera.Update(state, (float)e.Time);
             var mouseState = Mouse.GetState();
             if (_firstMove)
@@ -72,13 +68,12 @@ namespace GLWrapper
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            GL.ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             Logger.Log(this.GetType().Name, nameof(OnRenderFrame));
             _vertexArrays.ForEach(vao =>
             {
-                DrawFunctions.DrawCubeWithLightning(vao, vao.VertexBuffer.VerticesCount);
-                //DrawFunctions.DrawCube(vao, vao.VertexBuffer.VerticesCount);                
+                DrawFunctions.DrawCubeWithLightning(vao, vao.VertexBuffer.VerticesCount);                        
             });
             Context.SwapBuffers();
             base.OnRenderFrame(e);
