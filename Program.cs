@@ -3,6 +3,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using System.Linq;
 using GLWrapper.Graphics.Vertices;
+using GLWrapper.Scene;
 
 namespace GLWrapper
 {
@@ -13,8 +14,58 @@ namespace GLWrapper
             Ioc.ScreenSize = (1280, 720);
             Ioc.Camera = Camera.CreateCamera(Ioc.ScreenSize.Width, Ioc.ScreenSize.Height);
             using var game = new GameWindow(Ioc.ScreenSize.Width,Ioc.ScreenSize.Height,"TkCube");
-            DrawCubeWithLightning(game);
+            //DrawCubeWithLightning(game);            
+            //DrawPoint(game);
+            DrawWithModel(game);
             game.Run(60.0);
+        }        
+        public static void DrawWithModel(GameWindow game)
+        {
+            var model = Model.CreateModel(GetCubeData().Select(v => new ColoredVertex(v)).ToArray());
+            var shader = ShaderProgram.CreateShaderProgram("./Assets/Shaders/basicVertex.shader", "./Assets/Shaders/basicFrag.shader");
+            model.SetShader(shader, new VertexAttribute("aPosition", 3, VertexAttribPointerType.Float, ColoredVertex.Size, 0),
+                                    new VertexAttribute("aColor", 4, VertexAttribPointerType.Float, ColoredVertex.Size, ColoredVertex.PositionStride));
+            model.OnDraw = (vbo, shader) =>
+            {
+
+                //GL.BindVertexArray(vertexArray.Id);
+                //vertexArray.Shader[0].Use();
+                //vertexArray.Shader[0].SetProjection(Ioc.Camera);
+                //vertexArray.Shader[0].SetVector3("objectColor", new Vector3(1.0f, 0.5f, 0.31f));
+                //vertexArray.Shader[0].SetVector3("lightColor", new Vector3(1.0f, 1.0f, 1.0f));
+                //vertexArray.Shader[0].SetVector3("lightPos", lamp.Position);
+                vbo.Bind();
+                GL.DrawArrays(PrimitiveType.Triangles, 0, vbo.VerticesCount);
+                //GL.BindVertexArray(lamp.Id);
+                //lamp.Shader.Use();
+                //Matrix4 lampMatrix = Matrix4.Identity;
+                //lampMatrix *= Matrix4.CreateScale(0.2f);
+                //lampMatrix *= Matrix4.CreateTranslation(lamp.Position);
+                //lamp.Shader.SetMatrix4("model", lampMatrix);
+                //lamp.Shader.SetMatrix4("view", Ioc.Camera.View);
+                //lamp.Shader.SetMatrix4("projection", Ioc.Camera.Projection);
+                //GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
+            };
+            game.AddModel(model);            
+        }
+        public static void DrawPoint(GameWindow game)
+        {
+            var data = GetCubeData().Select(d => {
+                d.Color = Color4.Azure;
+                return new ColoredVertex(d);
+                }).ToArray();
+            var vertexArray = VertexArray.CreateVertexArray();
+            vertexArray.Bind();
+            var vbo = VertexBuffer.CreateVertexBuffer();
+            vbo.LoadData(data);
+            vbo.Bind();
+            var shaderProgram = ShaderProgram.CreateShaderProgram("./Assets/Shaders/basicVertexWithColor.shader", "./Assets/Shaders/basicFragWithInputColor.shader");
+            shaderProgram.SetVertexAttributes(new VertexAttribute("aPosition", 3, VertexAttribPointerType.Float, ColoredVertex.Size, 0),
+                                              new VertexAttribute("aColor", 4, VertexAttribPointerType.Float, ColoredVertex.Size, ColoredVertex.PositionStride));
+            vertexArray.Camera = Camera.CreateCamera(game.Width, game.Height);
+            vertexArray.Shader.Add(shaderProgram);
+            vertexArray.VertexBuffer = vbo;
+            game.AddVertexArrays(vertexArray);
         }
         public static void DrawMultipleCubesWithTextures(GameWindow game)
         {
@@ -45,7 +96,8 @@ namespace GLWrapper
         {
             var lightPosition = new Vector3(1.2f, 1.0f, 2.0f);
             var vertices = GetCubeDataWithNormals();
-            VertexBuffer vbo = VertexBuffer.CreateVertexObject(vertices);
+            VertexBuffer vbo = VertexBuffer.CreateVertexBuffer();
+            vbo.LoadData(vertices);
             ShaderProgram lightningShader = ShaderProgram.CreateShaderProgram("Assets/Shaders/basicVertex.shader", "Assets/Shaders/basicFrag.shader");
             ShaderProgram lampShader = ShaderProgram.CreateShaderProgram("Assets/Shaders/lampVertex.shader", "Assets/Shaders/lightningFragment.shader");
             VertexArray vaoModel = VertexArray.CreateVertexArray();

@@ -17,6 +17,11 @@ namespace GLWrapper.Graphics.Vertices.Buffers
         {
             GL.DeleteBuffer(this.Id);
         }
+        /// <summary>
+        /// Uploads the given vertices to the GPU binded with the current buffer object
+        /// </summary>
+        /// <typeparam name="TVertex"></typeparam>
+        /// <param name="vertices"></param>
         public void LoadData<TVertex>(TVertex[] vertices) where TVertex : struct
         {
             this.Bind();

@@ -9,10 +9,18 @@ namespace GLWrapper
     /// Delegate for a GL draw function. May be a vertex array Id or a vertex object Id
     /// </summary>
     /// <param name="vertexObjectId">The vertex object or vertex array Id</param>
-    public delegate void DrawFunction(VertexArray vertexArray, int verticesCount);
+    public delegate void DrawVAOCommand(VertexArray vertexArray, int verticesCount);
+    public delegate void DrawVBOCommand(VertexBuffer vbo, ShaderProgram shader);
     public static class DrawFunctions
     {
         private static Vector3[] CubePositions = Program.CubePositions();
+        public static void DrawPoint(VertexArray vertexArray,int verticesCount)
+        {
+            vertexArray.Bind();
+            vertexArray.Shader[0].Use();
+            //vertexArray.Shader[0].SetProjection(Ioc.Camera);
+            GL.DrawArrays(PrimitiveType.Points, 0, vertexArray.VertexBuffer.VerticesCount);            
+        }        
         public static void DrawCubeWithLightning(VertexArray vertexArray,int verticesCount)
         {
             var lamp = vertexArray.Lamp;

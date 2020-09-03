@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using GLWrapper.Scene;
+using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
@@ -12,7 +13,8 @@ namespace GLWrapper
     public class GameWindow : OpenTK.GameWindow
     {
         //Tem alguma maneira de definir uma lista de "comandos" que eu quero executar todo frame?        
-        private readonly List<VertexArray> _vertexArrays = new List<VertexArray>();        
+        private readonly List<VertexArray> _vertexArrays = new List<VertexArray>();
+        private readonly List<Model> _models = new List<Model>();
         private readonly Vector3[] positions = Program.CubePositions();        
         private double _time = 0.0;
         private double _velocity = 0;
@@ -24,7 +26,11 @@ namespace GLWrapper
         public void AddVertexArrays(params VertexArray[] vertexArrays)
         {
             _vertexArrays.AddRange(vertexArrays);       
-        }       
+        }
+        public void AddModel(Model model)
+        {
+            _models.Add(model);
+        }
         protected override void OnLoad(EventArgs e)
         {
             GL.Enable(EnableCap.DepthTest);
@@ -64,6 +70,10 @@ namespace GLWrapper
             {
                 Ioc.Camera.Rotate(mouseState, 1f);                
             }
+            //_models.ForEach(model =>
+            //{
+            //    model.Update(e.Time);
+            //});
             base.OnUpdateFrame(e);
         }
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -71,9 +81,14 @@ namespace GLWrapper
             GL.ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             Logger.Log(this.GetType().Name, nameof(OnRenderFrame));
-            _vertexArrays.ForEach(vao =>
+            //_vertexArrays.ForEach(vao =>
+            //{
+            //    //DrawFunctions.DrawCubeWithLightning(vao, vao.VertexBuffer.VerticesCount);
+            //    DrawFunctions.DrawPoint(vao, 1);
+            //});
+            _models.ForEach(model =>
             {
-                DrawFunctions.DrawCubeWithLightning(vao, vao.VertexBuffer.VerticesCount);                        
+                model.Draw(e.Time);
             });
             Context.SwapBuffers();
             base.OnRenderFrame(e);

@@ -39,7 +39,8 @@ namespace GLWrapper
         {
             var vertexArrayId = GL.GenVertexArray();
             GL.BindVertexArray(vertexArrayId);
-            var vertexBuffer = VertexBuffer.CreateVertexObject(vertices);
+            var vertexBuffer = VertexBuffer.CreateVertexBuffer();
+            vertexBuffer.LoadData(vertices);
             var vertexArray = new VertexArray(vertexArrayId, vertexBuffer);
             GL.BindVertexArray(0);
             return vertexArray;
@@ -66,7 +67,8 @@ namespace GLWrapper
         {
             var vertexArrayId = GL.GenVertexArray();
             GL.BindVertexArray(vertexArrayId);
-            var vertexBuffer = VertexBuffer.CreateVertexObject(vertices);
+            var vertexBuffer = VertexBuffer.CreateVertexBuffer();
+            vertexBuffer.LoadData(vertices);
             var texture = Texture.LoadTexture(textureFilepath);
             var vertexArray = new VertexArray(vertexArrayId, vertexBuffer, shader, texture, elementBuffer, vertexAttributes);
             return vertexArray;
