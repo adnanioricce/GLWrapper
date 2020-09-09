@@ -21,30 +21,19 @@ namespace GLWrapper
         }        
         public static void DrawWithModel(GameWindow game)
         {
-            var model = Model.CreateModel(GetCubeData().Select(v => new ColoredVertex(v)).ToArray());
-            var shader = ShaderProgram.CreateShaderProgram("./Assets/Shaders/basicVertex.shader", "./Assets/Shaders/basicFrag.shader");
-            model.SetShader(shader, new VertexAttribute("aPosition", 3, VertexAttribPointerType.Float, ColoredVertex.Size, 0),
-                                    new VertexAttribute("aColor", 4, VertexAttribPointerType.Float, ColoredVertex.Size, ColoredVertex.PositionStride));
+            var model = Model.CreateModel(GetCubeData().Select((v,i) => {
+                v.Color = new Color4(v.Color.A * (i / 10f),v.Color.B * (i / 100f),v.Color.G * (i / 5f),v.Color.A);
+                return v;
+            }).Select(v => new ColoredVertex(v))
+                                                       .ToArray());
+            var shader = ShaderProgram.CreateShaderProgram("./Assets/Shaders/basicVertexWithColor.shader", "./Assets/Shaders/basicFragWithInputColor.shader");            
+            shader.SetVertexAttributes(new VertexAttribute("aPosition", 3, VertexAttribPointerType.Float, ColoredVertex.Size, 0),
+                                       new VertexAttribute("aColor", 4, VertexAttribPointerType.Float, ColoredVertex.Size, ColoredVertex.PositionStride));
+            shader.SetProjection(Ioc.Camera);
+            model.SetShaderProgram(shader);            
             model.OnDraw = (vbo, shader) =>
-            {
-
-                //GL.BindVertexArray(vertexArray.Id);
-                //vertexArray.Shader[0].Use();
-                //vertexArray.Shader[0].SetProjection(Ioc.Camera);
-                //vertexArray.Shader[0].SetVector3("objectColor", new Vector3(1.0f, 0.5f, 0.31f));
-                //vertexArray.Shader[0].SetVector3("lightColor", new Vector3(1.0f, 1.0f, 1.0f));
-                //vertexArray.Shader[0].SetVector3("lightPos", lamp.Position);
-                vbo.Bind();
+            {                               
                 GL.DrawArrays(PrimitiveType.Triangles, 0, vbo.VerticesCount);
-                //GL.BindVertexArray(lamp.Id);
-                //lamp.Shader.Use();
-                //Matrix4 lampMatrix = Matrix4.Identity;
-                //lampMatrix *= Matrix4.CreateScale(0.2f);
-                //lampMatrix *= Matrix4.CreateTranslation(lamp.Position);
-                //lamp.Shader.SetMatrix4("model", lampMatrix);
-                //lamp.Shader.SetMatrix4("view", Ioc.Camera.View);
-                //lamp.Shader.SetMatrix4("projection", Ioc.Camera.Projection);
-                //GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
             };
             game.AddModel(model);            
         }

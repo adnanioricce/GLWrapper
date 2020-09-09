@@ -22,7 +22,7 @@ namespace GLWrapper
             GL.DrawArrays(PrimitiveType.Points, 0, vertexArray.VertexBuffer.VerticesCount);            
         }        
         public static void DrawCubeWithLightning(VertexArray vertexArray,int verticesCount)
-        {
+        {            
             var lamp = vertexArray.Lamp;
             GL.BindVertexArray(vertexArray.Id);
             vertexArray.Shader[0].Use();

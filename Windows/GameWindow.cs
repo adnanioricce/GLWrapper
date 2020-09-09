@@ -69,23 +69,13 @@ namespace GLWrapper
             else
             {
                 Ioc.Camera.Rotate(mouseState, 1f);                
-            }
-            //_models.ForEach(model =>
-            //{
-            //    model.Update(e.Time);
-            //});
+            }            
             base.OnUpdateFrame(e);
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            GL.ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            Logger.Log(this.GetType().Name, nameof(OnRenderFrame));
-            //_vertexArrays.ForEach(vao =>
-            //{
-            //    //DrawFunctions.DrawCubeWithLightning(vao, vao.VertexBuffer.VerticesCount);
-            //    DrawFunctions.DrawPoint(vao, 1);
-            //});
+            GL.ClearColor(0.9f, 0.6f, 0.4f, 1.0f);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);             
             _models.ForEach(model =>
             {
                 model.Draw(e.Time);
@@ -105,7 +95,7 @@ namespace GLWrapper
             {
                 var state = Mouse.GetState();
                 Mouse.SetPosition(X + Width / 2f, Y + Height / 2f);                
-                Console.WriteLine("mouse position: {0},{1}", state.X, state.Y);
+                //Console.WriteLine("mouse position: {0},{1}", state.X, state.Y);
             }
             
             base.OnMouseMove(e);

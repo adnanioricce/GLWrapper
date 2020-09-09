@@ -9,16 +9,16 @@ namespace GLWrapper.Scene
         protected bool _isVaoBinded = false;
         protected virtual VertexBuffer VBO { get; set; }
         public virtual VertexArray VAO { get; protected set; }        
-        public virtual ShaderProgram Shader { get; protected set; }
+        public virtual ShaderProgram ShaderProgram { get; protected set; }
         public DrawVBOCommand OnDraw { get; set; }
         public Action<double> OnUpdate { get; set; }
         protected Model()
         {
-            Shader = ShaderProgram.CreateShaderProgram("./Assets/Shaders/basicVertex.shader", "./Assets/Shaders/basicFrag.shader");
-            Shader.SetVertexAttributes(new VertexAttribute("aPosition", 3, OpenTK.Graphics.OpenGL4.VertexAttribPointerType.Float, ColoredVertex.Size, 0),
+            //ShaderProgram = ShaderProgram.CreateShaderProgram("./Assets/Shaders/basicVertex.shader", "./Assets/Shaders/basicFrag.shader");
+            ShaderProgram.SetVertexAttributes(new VertexAttribute("aPosition", 3, OpenTK.Graphics.OpenGL4.VertexAttribPointerType.Float, ColoredVertex.Size, 0),
                                        new VertexAttribute("aColor", 4, OpenTK.Graphics.OpenGL4.VertexAttribPointerType.Float, ColoredVertex.Size, ColoredVertex.PositionStride));
         }
-        protected Model(VertexArray vao,VertexBuffer vbo) : this()
+        protected Model(VertexArray vao,VertexBuffer vbo)
         {
             VAO = vao;
             VBO = vbo;            
@@ -40,7 +40,7 @@ namespace GLWrapper.Scene
         public virtual Model CreateModel<TVertex>(TVertex[] vertexData,ShaderProgram shaderProgram) where TVertex : struct
         {
             var model = CreateModel(vertexData);
-            model.Shader = shaderProgram;
+            model.ShaderProgram = shaderProgram;
             return model;
         }
         public virtual Model CreateModel<TVertex>(TVertex[] vertexData,string vertexShader,string fragmentShader) where TVertex : struct
@@ -71,17 +71,18 @@ namespace GLWrapper.Scene
         public virtual void UpdateVertexData<TVertex>(TVertex[] vertexData) where TVertex : struct
         {
             VBO.LoadData(vertexData);
-        }
-        public virtual void SetShader(ShaderProgram shaderProgram,params VertexAttribute[] attributes)
+        }             
+        public virtual void SetShaderProgram(ShaderProgram shaderProgram)
         {
-            shaderProgram.SetVertexAttributes(attributes);
+            ShaderProgram = shaderProgram;
         }
         public virtual void Draw(double time)
         {
             VAO.Bind();
-            this.Shader.Use();
-            this.Shader.SetProjection(Ioc.Camera);
-            OnDraw(this.VBO, this.Shader);
+            this.ShaderProgram.Use();            
+            this.ShaderProgram.SetProjection(Ioc.Camera);
+            
+            OnDraw(this.VBO, this.ShaderProgram);
         }
         public virtual void Update(double time)
         {            

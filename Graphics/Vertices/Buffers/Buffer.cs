@@ -9,6 +9,7 @@ namespace GLWrapper.Graphics.Vertices.Buffers
     {
         public int Id { get; protected set; }
         public BufferTarget Target { get; protected set; }
+        public int VerticesCount { get; set; }
         public void Bind()
         {
             GL.BindBuffer(this.Target, this.Id);
@@ -25,7 +26,8 @@ namespace GLWrapper.Graphics.Vertices.Buffers
         public void LoadData<TVertex>(TVertex[] vertices) where TVertex : struct
         {
             this.Bind();
-            BufferHelper.LoadBufferData(this.Id, vertices, hintUsage: BufferUsageHint.StreamDraw);
+            BufferHelper.LoadBufferData(this.Id, vertices, hintUsage: BufferUsageHint.StaticDraw);
+            VerticesCount = vertices.Length;
         }        
     }
 }

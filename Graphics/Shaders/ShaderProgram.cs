@@ -24,7 +24,7 @@ namespace GLWrapper
         {
             _textureSlots.AddRange(_textures.Select(texture => (texture.Id, TextureUnit.Texture0 + _textures.IndexOf(texture))));
             _handle = handle;
-        }                
+        }
         ~ShaderProgram()
         {
             GL.DeleteProgram(_handle);
