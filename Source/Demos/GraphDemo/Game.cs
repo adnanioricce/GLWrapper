@@ -1,14 +1,13 @@
 ﻿using GLWrapper;
+using GLWrapper.Factories;
 using GLWrapper.Graphics.Vertices;
 using GLWrapper.Scene;
 using GLWrapper.Windows;
-using OpenTK;
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Input;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace GraphDemo
 {
@@ -18,7 +17,7 @@ namespace GraphDemo
         VertexBuffer _vbo;
         VertexArray _vao;
         ShaderProgram _shader;
-        public Game(int width,int height,string title) : base(new OpenTK.GameWindow(width,height,GraphicsMode.Default,title))
+        public Game(int width,int height,string title) : base(WindowFactory.CreateDefaultWindow(width,height,title))
         {
         }
         public override void Start()
@@ -80,9 +79,8 @@ namespace GraphDemo
             base.Stop();
         }
         void HandleInput(float time)
-        {
-            var state = Keyboard.GetState();
-            if (state.IsKeyDown(Key.Escape))
+        {            
+            if (_keyboardState.IsKeyDown(Keys.Escape))
             {
                 Stop();
             }

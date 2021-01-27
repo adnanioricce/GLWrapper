@@ -8,7 +8,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\GLWrapper\GLWrapper.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <!--<PackageReference Include="System.Drawing.Common" Version="4.0.2" />-->
+  </ItemGroup>
   <ItemGroup>
     <None Update="Assets\frag.shader">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

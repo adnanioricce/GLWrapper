@@ -1,4 +1,5 @@
 ﻿using GLWrapper;
+using GLWrapper.Factories;
 using GLWrapper.Graphics;
 using GLWrapper.Graphics.Vertices;
 using GLWrapper.Scene;
@@ -7,13 +8,16 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace HelloTriangleModel
 {
     public class TriangleModelGame : BaseGame
     {
         private Model _model;
-        public TriangleModelGame(int width,int height,string title) : base(new GameWindow(width,height,GraphicsMode.Default, title))
+        public TriangleModelGame(int width,int height,string title) : base(WindowFactory.CreateDefaultWindow(width,height,title))
         {
 
         }
@@ -32,8 +36,8 @@ namespace HelloTriangleModel
             base.Setup();
         }
         public override void Update(float time)
-        {
-            if (Keyboard.GetState().IsKeyDown(Key.Escape))
+        {            
+            if (_keyboardState.IsKeyDown(Keys.Escape))
             {
                 Stop();
             }

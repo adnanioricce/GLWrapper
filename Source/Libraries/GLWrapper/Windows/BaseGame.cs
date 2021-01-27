@@ -4,37 +4,45 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTK.Windowing.Common;
+
 namespace GLWrapper.Windows
 {
     public class BaseGame : IGame
     {
         private readonly GameWindow _window;
+        protected readonly KeyboardState _keyboardState;
+        protected readonly MouseState _mouseState;
         public BaseGame(GameWindow window)
         {
             _window = window;
-            _window.RenderFrame += (sender,e) =>
+            _window.RenderFrame += (e) =>
             {
                 Draw((float)e.Time);
                 
             };
-            _window.UpdateFrame += (sender, e) =>
-            {
+            _window.UpdateFrame += ( e) =>
+            {                
                 Update((float)e.Time);
             };
-            _window.Load += (sender, e) =>
+            _window.Load += () =>
             {
                 Setup();
                 LoadContent();                
             };
-            _window.MouseMove += (sender, e) =>
+            _window.MouseMove += (e) =>
             {                
                 MouseMove();
             };
-            _window.MouseWheel += (sender, e) =>
+            _window.MouseWheel += (e) =>
             {
-                Ioc.Camera.FovValue -= e.DeltaPrecise;
+                Ioc.Camera.FovValue -= e.OffsetY;
                 MouseWheel();
             };
+            _keyboardState = _window.KeyboardState;
+            _mouseState = _window.MouseState;
         }
         public virtual void LoadContent()
         {
@@ -46,15 +54,15 @@ namespace GLWrapper.Windows
             GL.Enable(EnableCap.Texture2D);
             GL.Enable(EnableCap.DebugOutput);
             GL.DebugMessageCallback(LogExtensions.MessageCallBack, (IntPtr)0);
-            Ioc.Camera = Camera.CreateCamera(_window.Width, _window.Height);
+            Ioc.Camera = Camera.CreateCamera(_window.Size.X, _window.Size.Y);
             _window.CursorVisible = false;
         }
         public virtual void Update(float time)
         {
-
-            var state = Keyboard.GetState();
+            
+            var state = _window.KeyboardState;
             Ioc.Camera.Update(state, time);
-            var mouseState = Mouse.GetState();
+            var mouseState = _window.MouseState;
             Ioc.Camera.Rotate(mouseState, 1f);            
             LogExtensions.LogGLError();
         }
@@ -65,11 +73,11 @@ namespace GLWrapper.Windows
         }
         public virtual void Start()
         {
-            _window.Run(60.0);
+            _window.Run();
         }
         public virtual void Stop()
         {
-            _window.Exit();
+            _window.Close();
         }
         public virtual void Dispose()
         {
@@ -78,10 +86,10 @@ namespace GLWrapper.Windows
 
         public void MouseMove()
         {
-            if (_window.Focused)
-            {
-                var state = Mouse.GetState();
-                Mouse.SetPosition(_window.X + _window.Width / 2f, _window.Y + _window.Height / 2f);
+            if (_window.IsFocused)
+            {                
+                // var state = 
+                // Mouse.SetPosition(_window.MousePosition.X + _window.Size.X / 2f, _window.MousePosition.Y + _window.Size.Y / 2f);
             }
         }
 

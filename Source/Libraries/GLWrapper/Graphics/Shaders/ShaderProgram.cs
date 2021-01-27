@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
+
 namespace GLWrapper
 {
     public class ShaderProgram : IDisposable

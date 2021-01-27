@@ -1,5 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Input;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Drawing.Drawing2D;
 
@@ -81,32 +83,32 @@ namespace GLWrapper
         }
         public void Update(KeyboardState input,float time = 1f)
         {
-            if (input.IsKeyDown(Key.W))
+            if (input.IsKeyDown(Keys.W))
             {
                 Position += Front * _speed * time; //Forward 
             }
 
-            if (input.IsKeyDown(Key.S))
+            if (input.IsKeyDown(Keys.S))
             {
                 Position -= Front * _speed * time; //Backwards
             }
 
-            if (input.IsKeyDown(Key.A))
+            if (input.IsKeyDown(Keys.A))
             {
                 Position -= Right * _speed * time; //Left
             }
 
-            if (input.IsKeyDown(Key.D))
+            if (input.IsKeyDown(Keys.D))
             {
                 Position += Right * _speed * time; //Right
             }
 
-            if (input.IsKeyDown(Key.Space))
+            if (input.IsKeyDown(Keys.Space))
             {
                 Position += Up * _speed * time; //Up 
             }
 
-            if (input.IsKeyDown(Key.LShift))
+            if (input.IsKeyDown(Keys.LeftShift))
             {
                 Position -= Up * _speed * time; //Down
             }

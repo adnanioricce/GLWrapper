@@ -1,6 +1,7 @@
 ﻿using GLWrapper.Graphics.Vertices;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using System.Collections.Generic;
 
 namespace GLWrapper.Scene

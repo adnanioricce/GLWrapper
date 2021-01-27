@@ -1,4 +1,5 @@
 ﻿using GLWrapper;
+using GLWrapper.Factories;
 using GLWrapper.Graphics;
 using GLWrapper.Graphics.Vertices;
 using GLWrapper.Windows;
@@ -6,6 +7,8 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +20,7 @@ namespace HelloTriangle
         VertexArray VertexArrayObject;
         VertexBuffer VertexBufferObject;        
         ShaderProgram Shader;
-        public Game(int width,int height,string title) : base(new GameWindow(width,height,GraphicsMode.Default,title))
+        public Game(int width,int height,string title) : base(WindowFactory.CreateDefaultWindow(width,height,title))
         {
         }
         public override void Setup()
@@ -49,7 +52,7 @@ namespace HelloTriangle
         }        
         public override void Update(float time)
         {
-            if (Keyboard.GetState().IsKeyDown(Key.Escape))
+            if (_keyboardState.IsKeyDown(Keys.Escape))
             {
                 Stop();
             }
