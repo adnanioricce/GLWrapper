@@ -16,6 +16,10 @@ namespace GLWrapper
         {
             Wrapper.BindVertexArray(id);
         }
+        public static void BindBuffer(BufferTarget bufferTarget,int id)
+        {
+            Wrapper.BindBuffer(bufferTarget,id);
+        }
         public static ErrorCode GetError()
         {
             return Wrapper.GetError();
@@ -23,6 +27,10 @@ namespace GLWrapper
         public static void DrawArrays(PrimitiveType type, int first, int count)
         {
             Wrapper.DrawArrays(type, first, count);
+        }
+        public static void DrawElements(PrimitiveType type, int count, DrawElementsType elementType,int offset)
+        {
+            Wrapper.DrawElements(type, count, elementType, offset);
         }
 
     }
@@ -36,6 +44,10 @@ namespace GLWrapper
         {
             GL.BindVertexArray(id);
         }
+        public virtual void BindBuffer(BufferTarget bufferTarget,int id)
+        {
+            GL.BindBuffer(bufferTarget,id);
+        }
         public virtual ErrorCode GetError()
         {
             return GL.GetError();
@@ -43,6 +55,10 @@ namespace GLWrapper
         public virtual void DrawArrays(PrimitiveType type, int first, int count)
         {
             GL.DrawArrays(type, first, count);
+        }
+        public virtual void DrawElements(PrimitiveType type,int count,DrawElementsType elementType,int offset)
+        {
+            GL.DrawElements(type,count,elementType,offset);
         }
     }
 

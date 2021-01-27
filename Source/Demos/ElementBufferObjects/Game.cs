@@ -1,4 +1,4 @@
-﻿using GLWrapper;
+using GLWrapper;
 using GLWrapper.Factories;
 using GLWrapper.Graphics;
 using GLWrapper.Graphics.Vertices;
@@ -12,32 +12,37 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Collections.Generic;
 using System.Text;
-
-namespace HelloTriangle
+namespace ElementBufferObjects
 {
     public class Game : BaseGame
     {
         VertexArray VertexArrayObject;
-        VertexBuffer VertexBufferObject;        
+        VertexBuffer VertexBufferObject;
+        ElementBuffer ElementBufferObject;
         ShaderProgram Shader;
+        private uint[] indices = new uint[]{
+                0,1,3,
+                1,2,3
+        };
         public Game(int width,int height,string title) : base(WindowFactory.CreateDefaultWindow(width,height,title))
         {
         }
         public override void Setup()
         {
-            
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             var vertices = new ColoredVertex[]
             {
                 new ColoredVertex(new Vector3(-0.5f, -0.5f, 0.0f),Color4.AliceBlue), //Bottom-left vertex
                 new ColoredVertex(new Vector3(0.5f, -0.5f, 0.0f),Color4.BlanchedAlmond), //Bottom-right vertex
-                new ColoredVertex(new Vector3(0.0f,  0.5f, 0.0f),Color4.Fuchsia) //Top vertex                
-            };
-            
-            
+                new ColoredVertex(new Vector3(0.0f,  0.5f, 0.0f),Color4.Fuchsia), //Top vertex
+                new ColoredVertex(new Vector3(0.0f,  -0.5f, 1.0f),Color4.Red)
+            };                 
             var vbo = VertexBuffer.CreateVertexBuffer();
             vbo.Bind();
-            vbo.LoadData(vertices);                   
+            vbo.LoadData(vertices);
+            var ebo = ElementBuffer.CreateElementBuffer();
+            ebo.Bind();
+            ebo.LoadData(indices);
             var shader = ShaderProgram.CreateShaderProgram("Assets/vertex.shader", "Assets/frag.shader");
             shader.Use();
             var vao = VertexArray.CreateVertexArray();
@@ -45,8 +50,11 @@ namespace HelloTriangle
             shader.SetVertexAttributes(new VertexAttribute("aPosition", 3, VertexAttribPointerType.Float, sizeof(float) * (3 + 4), 0),
                                        new VertexAttribute("aColor",4, VertexAttribPointerType.Float, sizeof(float) * (3 + 4),sizeof(float) * 3));
             vbo.Bind();
+            ebo.Bind();
+            // var ebo = ElementBuffer.CreateElementBuffer(indices);
             VertexArrayObject = vao;
             VertexBufferObject = vbo;
+            ElementBufferObject = ebo;
             Shader = shader;
             base.Setup();
         }        
@@ -59,13 +67,12 @@ namespace HelloTriangle
             base.Update(time);
         }
         public override void Draw(float time)
-        {            
-            GL.Clear(ClearBufferMask.ColorBufferBit);            
+        {
+            GL.Clear(ClearBufferMask.ColorBufferBit);
             Shader.Use();
-            //VertexArrayObject.Bind();
-            //GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
-            Renderer.Draw(VertexArrayObject, 0, 3);
-            base.Draw(time);            
+            Renderer.DrawElements(VertexArrayObject, indices.Length,0);
+            Renderer.DrawElements(VertexArrayObject, indices.Length,1);
+            base.Draw(time);
         }
         public override void Stop()
         {

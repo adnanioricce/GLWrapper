@@ -15,7 +15,7 @@ namespace GLWrapper.Tests
             OpenGL.Wrapper = mockGL.Object;
             var vao = VertexArray.CreateVertexArray();
             // Act
-            Renderer.Draw(vao, 0, 3,0f);
+            Renderer.Draw(vao, 0, 3);
             // Assert
             Assert.True(vao.IsBinded);
         }

@@ -6,7 +6,8 @@ namespace ElementBufferObjects
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var game = new Game(1280,720, "Element Buffer Objects");
+            game.Start();
         }
     }
 }

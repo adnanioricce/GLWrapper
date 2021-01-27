@@ -6,7 +6,15 @@ namespace GLWrapper.Graphics
 {
     public static class Renderer
     {
-        public static void Draw(VertexArray VAO,int first,int count,float time)
+        public static void DrawElements(VertexArray VAO,int count,int offset = 0)
+        {
+            if(!VAO.IsBinded){
+                VAO.Bind();
+            }
+
+            OpenGL.DrawElements(PrimitiveType.Triangles,count,DrawElementsType.UnsignedInt,offset);
+        }
+        public static void Draw(VertexArray VAO,int first,int count)
         {
             if (!VAO.IsBinded)
             {
@@ -14,7 +22,7 @@ namespace GLWrapper.Graphics
             }
             OpenGL.DrawArrays(PrimitiveType.Triangles, first, count);
         }
-
+        
         public static void Draw(Model model,float time)
         {
             if (!(model.DrawCommand is null))
