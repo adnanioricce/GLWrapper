@@ -35,7 +35,11 @@ namespace GLWrapper.Graphics
                 model.VAO.Bind();                
             }
             model.ShaderProgram.Use();
-            GL.DrawArrays(PrimitiveType.Triangles, 0, model.VBO.VerticesCount);
+            if(model.EBO is null){
+                GL.DrawArrays(PrimitiveType.Triangles, 0, model.VBO.VerticesCount);
+                return;
+            }
+            GL.DrawElements(PrimitiveType.Triangles,model.EBO.IndicesCount,DrawElementsType.UnsignedInt,0);
         }
         public static void DrawCanvas(float time)
         {

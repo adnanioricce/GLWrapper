@@ -22,7 +22,8 @@ namespace ElementBufferObjects
         ShaderProgram Shader;
         private uint[] indices = new uint[]{
                 0,1,3,
-                1,2,3
+                1,2,3,
+                // 3,4,5
         };
         public Game(int width,int height,string title) : base(WindowFactory.CreateDefaultWindow(width,height,title))
         {
@@ -32,10 +33,12 @@ namespace ElementBufferObjects
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             var vertices = new ColoredVertex[]
             {
-                new ColoredVertex(new Vector3(-0.5f, -0.5f, 0.0f),Color4.AliceBlue), //Bottom-left vertex
-                new ColoredVertex(new Vector3(0.5f, -0.5f, 0.0f),Color4.BlanchedAlmond), //Bottom-right vertex
-                new ColoredVertex(new Vector3(0.0f,  0.5f, 0.0f),Color4.Fuchsia), //Top vertex
-                new ColoredVertex(new Vector3(0.0f,  -0.5f, 1.0f),Color4.Red)
+                new ColoredVertex(new Vector3(0.5f, 0.5f, 0.0f),Color4.AliceBlue), //Bottom-left vertex
+                // new ColoredVertex(new Vector3(0.5f, -0.5f, 0.0f),Color4.BlanchedAlmond), //Bottom-right vertex
+                // new ColoredVertex(new Vector3(-0.5f,  -0.5f, 0.0f),Color4.Fuchsia), //Top vertex
+                new ColoredVertex(new Vector3(-0.5f,  -0.5f, 0.0f),Color4.Red),
+                new ColoredVertex(new Vector3(-0.5f,  0.5f, 0.0f),Color4.Blue),
+                new ColoredVertex(new Vector3(0.5f,  0.5f, 0.0f),Color4.Yellow)
             };                 
             var vbo = VertexBuffer.CreateVertexBuffer();
             vbo.Bind();
@@ -70,8 +73,10 @@ namespace ElementBufferObjects
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
             Shader.Use();
-            Renderer.DrawElements(VertexArrayObject, indices.Length,0);
-            Renderer.DrawElements(VertexArrayObject, indices.Length,1);
+            // foreach(var index in indices){
+            //     Renderer.DrawElements(VertexArrayObject,indices.Length - (int)index,(int)index);                
+            // }
+            Renderer.DrawElements(VertexArrayObject,indices.Length ,0);
             base.Draw(time);
         }
         public override void Stop()

@@ -6,9 +6,10 @@ using System.Collections.Generic;
 namespace GLWrapper.Scene
 {
     public class Model
-    {        
+    {
         public virtual VertexBuffer VBO { get; protected set; }
-        public virtual VertexArray VAO { get; protected set; }        
+        public virtual ElementBuffer EBO { get; protected set; }
+        public virtual VertexArray VAO { get; protected set; }
         public virtual ShaderProgram ShaderProgram { get; protected set; }
         public DrawVBOCommand DrawCommand { get; set; }
         public Action<double> UpdateCommand { get; set; }
@@ -16,12 +17,19 @@ namespace GLWrapper.Scene
         {            
             
         }
-        protected Model(VertexArray vao,VertexBuffer vbo,ShaderProgram shaderProgram)
+        protected Model(VertexArray vao,VertexBuffer vbo,ShaderProgram shader)
         {
             VAO = vao;
             VBO = vbo;
-            ShaderProgram = shaderProgram;
-        }        
+            ShaderProgram = shader;
+        }
+        protected Model(VertexArray vao,VertexBuffer vbo,ElementBuffer ebo,ShaderProgram shader)
+        {
+            VAO = vao;
+            VBO = vbo;
+            EBO = ebo;
+            ShaderProgram = shader;
+        }
         /// <summary>
         /// Creates a default model with the given vertices. If no shader is provided, a default will be used assuming a position and color
         /// </summary>
@@ -37,12 +45,25 @@ namespace GLWrapper.Scene
             var shaderProgram = ShaderProgramFactory.CreateDefault2DShaderProgram();
             return new Model(vao, vbo,shaderProgram);
         }
+        public static Model CreateModel<TVertex>(TVertex[] vertexData,int[] indices) where TVertex : struct
+        {
+            var vbo = VertexBuffer.CreateVertexBuffer();
+            vbo.LoadData(vertexData);
+            var vao = VertexArray.CreateVertexArray();
+            vao.Bind();
+            var shaderProgram = ShaderProgramFactory.CreateDefault2DShaderProgram();
+            var ebo = ElementBuffer.CreateElementBuffer();
+            ebo.Bind();
+            ebo.LoadData(indices);
+            return new Model(vao,vbo,ebo,shaderProgram);
+        }
         public static Model CreateModel<TVertex>(TVertex[] vertexData,ShaderProgram shaderProgram) where TVertex : struct
         {
             var model = CreateModel(vertexData);
             model.ShaderProgram = shaderProgram;            
             return model;
         }
+        
         public static Model CreateModel<TVertex>(TVertex[] vertexData,string vertexShader,string fragmentShader) where TVertex : struct
         {
             var model = CreateModel(vertexData, ShaderProgram.CreateShaderProgram(vertexShader, fragmentShader));
