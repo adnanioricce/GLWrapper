@@ -25,9 +25,8 @@ namespace GLWrapper.Scene
             vbo.Bind();
             vbo.LoadData(vertices);
             var vao = VertexArray.CreateVertexArray();            
-            vao.Bind();
-            shader.SetVertexAttributes(new VertexAttribute("aPosition", 3, VertexAttribPointerType.Float, ColoredVertex.Size, 0),
-                                       new VertexAttribute("aColor", 4, VertexAttribPointerType.Float, ColoredVertex.Size, ColoredVertex.PositionStride));
+            vao.Bind();            
+            shader.SetVertexAttributes();
             vbo.Bind();
             graph.ModelVAO = vao;
             graph.ModelVBO = vbo;

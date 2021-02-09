@@ -11,11 +11,12 @@ namespace GLWrapper.Tests
         public void Should_be_binded_to_draw_otherwise_bind_it()
         {
             // Arrange
-            var mockGL = new OpenGLMock();            
+            var mockGL = new OpenGLMock();
+            var renderer = new Renderer();
             OpenGL.Wrapper = mockGL.Object;
             var vao = VertexArray.CreateVertexArray();
             // Act
-            Renderer.Draw(vao, 0, 3);
+            renderer.Draw(vao, 0, 3);
             // Assert
             Assert.True(vao.IsBinded);
         }

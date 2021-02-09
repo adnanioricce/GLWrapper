@@ -46,12 +46,15 @@ namespace ElementBufferObjects
             var ebo = ElementBuffer.CreateElementBuffer();
             ebo.Bind();
             ebo.LoadData(indices);
-            var shader = ShaderProgram.CreateShaderProgram("Assets/vertex.shader", "Assets/frag.shader");
+            var attributes = new [] {
+                new VertexAttribute("aPosition", 3, VertexAttribPointerType.Float, sizeof(float) * (3 + 4), 0),
+                new VertexAttribute("aColor",4, VertexAttribPointerType.Float, sizeof(float) * (3 + 4),sizeof(float) * 3)
+            };
+            var shader = ShaderProgram.CreateShaderProgram("Assets/vertex.shader", "Assets/frag.shader",attributes);
             shader.Use();
             var vao = VertexArray.CreateVertexArray();
             vao.Bind();
-            shader.SetVertexAttributes(new VertexAttribute("aPosition", 3, VertexAttribPointerType.Float, sizeof(float) * (3 + 4), 0),
-                                       new VertexAttribute("aColor",4, VertexAttribPointerType.Float, sizeof(float) * (3 + 4),sizeof(float) * 3));
+            shader.SetVertexAttributes();
             vbo.Bind();
             ebo.Bind();
             // var ebo = ElementBuffer.CreateElementBuffer(indices);

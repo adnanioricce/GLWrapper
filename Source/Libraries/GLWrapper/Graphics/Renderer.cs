@@ -4,9 +4,9 @@ using System;
 
 namespace GLWrapper.Graphics
 {
-    public static class Renderer
+    public class Renderer
     {
-        public static void DrawElements(VertexArray VAO,int count,int offset = 0)
+        public void DrawElements(VertexArray VAO,int count,int offset = 0)
         {
             if(!VAO.IsBinded){
                 VAO.Bind();
@@ -14,7 +14,7 @@ namespace GLWrapper.Graphics
 
             OpenGL.DrawElements(PrimitiveType.Triangles,count,DrawElementsType.UnsignedInt,offset);
         }
-        public static void Draw(VertexArray VAO,int first,int count)
+        public void Draw(VertexArray VAO,int first,int count)
         {
             if (!VAO.IsBinded)
             {
@@ -23,7 +23,7 @@ namespace GLWrapper.Graphics
             OpenGL.DrawArrays(PrimitiveType.Triangles, first, count);
         }
         
-        public static void Draw(Model model,float time)
+        public void Draw(Model model,float time)
         {
             if (!(model.DrawCommand is null))
             {
@@ -41,9 +41,11 @@ namespace GLWrapper.Graphics
             }
             GL.DrawElements(PrimitiveType.Triangles,model.EBO.IndicesCount,DrawElementsType.UnsignedInt,0);
         }
-        public static void DrawCanvas(float time)
-        {
-            Canvas.Render(time);
+        public void Draw(Model model,Camera camera,float time){
+            model.VAO.Bind();            
+            model.ShaderProgram.Use();
+            model.ShaderProgram.SetProjection(camera);
+            GL.DrawElements(PrimitiveType.Triangles,model.EBO.IndicesCount,DrawElementsType.UnsignedInt,0);
         }
     }
 }

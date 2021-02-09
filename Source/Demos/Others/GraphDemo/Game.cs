@@ -36,8 +36,12 @@ namespace GraphDemo
                 float z = -1.0f;
                 var position = new Vector3(x, y, z);
                 return position;
-            }).ToArray();            
-            var shader = ShaderProgram.CreateShaderProgram("Assets/Shaders/vertex.shader", "Assets/Shaders/frag.shader");
+            }).ToArray();
+            var attributes = new [] { 
+                new VertexAttribute("aPosition", 3, VertexAttribPointerType.Float, sizeof(float) * (3 + 4), 0),
+                new VertexAttribute("aColor",4, VertexAttribPointerType.Float, sizeof(float) * (3 + 4),sizeof(float) * 3)
+            };
+            var shader = ShaderProgram.CreateShaderProgram("Assets/Shaders/vertex.shader", "Assets/Shaders/frag.shader",attributes);
             _shader = shader;            
             _graph = Graph<ColoredVertex>.CreateGraph(cubeData, positions, shader);
             base.Setup();
@@ -65,12 +69,11 @@ namespace GraphDemo
             for (int i = 0;i < newPositions.Length;++i)
             {
                 _graph.Positions[i] = newPositions[i];
-                var model = Ioc.Camera.Model;        
+                var model = Ioc.Camera.Model;
                 model = model * Matrix4.CreateScale(0.2f, 0.2f, 0.2f) * Matrix4.CreateTranslation(newPositions[i]);
                 _shader.SetMatrix4(nameof(Ioc.Camera.Model).ToLower(), model);
                 GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
-
-            }            
+            }
             base.Draw(time);
             LogExtensions.LogGLError();
         }

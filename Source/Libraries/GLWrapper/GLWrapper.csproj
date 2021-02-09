@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Shaders\Default2DTexture\fragment.shader" />
+    <None Remove="Resources\Shaders\Default2DTexture\vertex.shader" />
     <None Remove="Resources\Shaders\Default2D\fragment.shader" />
     <None Remove="Resources\Shaders\Default2D\vertex.shader" />
     <None Remove="Resources\Shaders\Default3D\fragment.shader" />
@@ -12,6 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Shaders\Default2DTexture\fragment.shader" />
+    <EmbeddedResource Include="Resources\Shaders\Default2DTexture\vertex.shader" />
     <EmbeddedResource Include="Resources\Shaders\Default2D\fragment.shader">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

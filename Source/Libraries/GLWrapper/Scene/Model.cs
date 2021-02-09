@@ -11,6 +11,7 @@ namespace GLWrapper.Scene
         public virtual ElementBuffer EBO { get; protected set; }
         public virtual VertexArray VAO { get; protected set; }
         public virtual ShaderProgram ShaderProgram { get; protected set; }
+        // public virtual List<Texture> Textures { get; protected set; } = new List<Texture>();
         public DrawVBOCommand DrawCommand { get; set; }
         public Action<double> UpdateCommand { get; set; }
         protected Model()
@@ -59,14 +60,51 @@ namespace GLWrapper.Scene
         }
         public static Model CreateModel<TVertex>(TVertex[] vertexData,ShaderProgram shaderProgram) where TVertex : struct
         {
-            var model = CreateModel(vertexData);
-            model.ShaderProgram = shaderProgram;            
-            return model;
+            var vbo = VertexBuffer.CreateVertexBuffer();
+            vbo.LoadData(vertexData);
+            var vao = VertexArray.CreateVertexArray();
+            vao.Bind();
+            shaderProgram.Use();
+            shaderProgram.SetVertexAttributes();
+            vbo.Bind();
+            return new Model(vao,vbo,shaderProgram);
         }
         
-        public static Model CreateModel<TVertex>(TVertex[] vertexData,string vertexShader,string fragmentShader) where TVertex : struct
+        public static Model CreateModel<TVertex>(TVertex[] vertexData,string vertexShader,string fragmentShader,IEnumerable<VertexAttribute> attributes) where TVertex : struct
         {
-            var model = CreateModel(vertexData, ShaderProgram.CreateShaderProgram(vertexShader, fragmentShader));
+            var model = CreateModel(vertexData, ShaderProgram.CreateShaderProgram(vertexShader, fragmentShader,attributes));
+            return model;
+        }
+        public static Model CreateModel<TVertex>(Texture texture,TVertex[] vertexData,int[] indices) where TVertex : struct
+        {
+            var shader = ShaderProgramFactory.CreateDefault2DShaderProgramWithTexture();
+            var vbo = VertexBuffer.CreateVertexBuffer();
+            vbo.LoadData(vertexData);
+            var vao = VertexArray.CreateVertexArray();
+            vao.Bind();
+            shader.Use();
+            shader.SetVertexAttributes();
+            vbo.Bind();
+            texture.Bind();
+            var ebo = ElementBuffer.CreateElementBuffer(indices);
+            var model = new Model(vao, vbo, ebo, shader);
+            return model;
+        }
+        public static Model CreateModel<TVertex>(TVertex[] vertexData,Texture[] textures,int[] indices,ShaderProgram shader) where TVertex : struct
+        {
+            var vbo = VertexBuffer.CreateVertexBuffer();
+            vbo.LoadData(vertexData);
+            var vao = VertexArray.CreateVertexArray();
+            vao.Bind();
+            shader.Use();
+            shader.SetVertexAttributes();
+            vbo.Bind();
+            var ebo = ElementBuffer.CreateElementBuffer(indices);
+            var model = new Model(vao,vbo,ebo,shader);
+            for (int i = 0; i < textures.Length; i++)
+            {
+                textures[i].Bind(i);                
+            }            
             return model;
         }
         /// <summary>
@@ -104,7 +142,7 @@ namespace GLWrapper.Scene
                 VAO.Bind();
             }            
             this.ShaderProgram.Use();            
-            this.ShaderProgram.SetProjection(Ioc.Camera);
+            // this.ShaderProgram.SetProjection(Ioc.Camera);
             
             DrawCommand(this.VBO, this.ShaderProgram);
         }

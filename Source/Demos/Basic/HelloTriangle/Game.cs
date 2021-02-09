@@ -37,13 +37,17 @@ namespace HelloTriangle
             
             var vbo = VertexBuffer.CreateVertexBuffer();
             vbo.Bind();
-            vbo.LoadData(vertices);                   
-            var shader = ShaderProgram.CreateShaderProgram("Assets/vertex.shader", "Assets/frag.shader");
-            shader.Use();
+            vbo.LoadData(vertices);
+            var attributes = new [] {
+                new VertexAttribute("aPosition", 3, VertexAttribPointerType.Float, sizeof(float) * (3 + 4), 0),
+                new VertexAttribute("aColor",4, VertexAttribPointerType.Float, sizeof(float) * (3 + 4),sizeof(float) * 3)             
+            };
+            var shader = ShaderProgram.CreateShaderProgram("Assets/vertex.shader", "Assets/frag.shader",attributes);
+            shader.Use();            
             var vao = VertexArray.CreateVertexArray();
             vao.Bind();
-            shader.SetVertexAttributes(new VertexAttribute("aPosition", 3, VertexAttribPointerType.Float, sizeof(float) * (3 + 4), 0),
-                                       new VertexAttribute("aColor",4, VertexAttribPointerType.Float, sizeof(float) * (3 + 4),sizeof(float) * 3));
+            shader.Use();
+            shader.SetVertexAttributes();
             vbo.Bind();
             VertexArrayObject = vao;
             VertexBufferObject = vbo;

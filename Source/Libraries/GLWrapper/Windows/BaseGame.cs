@@ -7,23 +7,30 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTK.Windowing.Common;
+using GLWrapper.Factories;
+using GLWrapper.Graphics;
+using OpenTK.Mathematics;
 
 namespace GLWrapper.Windows
 {
     public class BaseGame : IGame
     {
-        private readonly GameWindow _window;
+        private readonly GameWindow _window;        
         protected readonly KeyboardState _keyboardState;
         protected readonly MouseState _mouseState;
+        protected readonly Camera Camera;
+        protected readonly Renderer Renderer;
+        public bool IsFocused { get {return _window.IsFocused;}}        
         public BaseGame(GameWindow window)
         {
             _window = window;
             _window.RenderFrame += (e) =>
             {
+                Update((float)e.Time);
                 Draw((float)e.Time);
                 
             };
-            _window.UpdateFrame += ( e) =>
+            _window.UpdateFrame += (e) =>
             {                
                 Update((float)e.Time);
             };
@@ -33,16 +40,21 @@ namespace GLWrapper.Windows
                 LoadContent();                
             };
             _window.MouseMove += (e) =>
-            {                
+            {                   
                 MouseMove();
             };
             _window.MouseWheel += (e) =>
             {
-                Ioc.Camera.FovValue -= e.OffsetY;
+                Camera.FovValue -= e.OffsetY;
                 MouseWheel();
             };
             _keyboardState = _window.KeyboardState;
             _mouseState = _window.MouseState;
+            Camera = Camera.CreateCamera(_window.Size.X,_window.Size.Y);
+            Renderer = new Renderer();
+        }
+        public BaseGame(int width,int height,string title) : this(WindowFactory.CreateDefaultWindow(width,height,title))
+        {            
         }
         public virtual void LoadContent()
         {
@@ -50,20 +62,14 @@ namespace GLWrapper.Windows
         }
         public virtual void Setup()
         {
-            //GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Texture2D);
             GL.Enable(EnableCap.DebugOutput);
             GL.DebugMessageCallback(LogExtensions.MessageCallBack, (IntPtr)0);
-            Ioc.Camera = Camera.CreateCamera(_window.Size.X, _window.Size.Y);
             _window.CursorVisible = false;
         }
         public virtual void Update(float time)
-        {
-            
-            var state = _window.KeyboardState;
-            Ioc.Camera.Update(state, time);
-            var mouseState = _window.MouseState;
-            Ioc.Camera.Rotate(mouseState, 1f);            
+        {            
+            Camera.Update(_keyboardState, _mouseState, time);            
             LogExtensions.LogGLError();
         }
         public virtual void Draw(float time)
@@ -84,16 +90,15 @@ namespace GLWrapper.Windows
             _window.Dispose();
         }
 
-        public void MouseMove()
+        public virtual void MouseMove()
         {
-            if (_window.IsFocused)
-            {                
-                // var state = 
-                // Mouse.SetPosition(_window.MousePosition.X + _window.Size.X / 2f, _window.MousePosition.Y + _window.Size.Y / 2f);
+            if(!IsFocused){                
+                return;
             }
+            Camera.Update(_keyboardState,_mouseState);            
         }
 
-        public void MouseWheel()
+        public virtual void MouseWheel()
         {            
             
         }
