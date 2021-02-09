@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="Assets/**" CopyToOutputDirectory="PreserveNewest" />    
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\GLWrapper\GLWrapper.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Assets\Resources\container.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
