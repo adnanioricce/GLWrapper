@@ -60,7 +60,7 @@ namespace GraphDemo
         {            
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             _graph.Bind();            
-            _shader.SetProjection(Ioc.Camera);
+            _shader.SetProjection(Camera);
             var newPositions = _graph.Positions.Select(p =>
             {
                 var position = new Vector3(p.X, MathF.Sin(MathF.PI * ((p.X + (_graph.Positions.IndexOf(p) + 1) * time) + time)), -1.0f);
@@ -69,9 +69,9 @@ namespace GraphDemo
             for (int i = 0;i < newPositions.Length;++i)
             {
                 _graph.Positions[i] = newPositions[i];
-                var model = Ioc.Camera.Model;
+                var model = Camera.Model;
                 model = model * Matrix4.CreateScale(0.2f, 0.2f, 0.2f) * Matrix4.CreateTranslation(newPositions[i]);
-                _shader.SetMatrix4(nameof(Ioc.Camera.Model).ToLower(), model);
+                _shader.SetMatrix4(nameof(Camera.Model).ToLower(), model);
                 GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
             }
             base.Draw(time);
@@ -82,11 +82,7 @@ namespace GraphDemo
             base.Stop();
         }
         void HandleInput(float time)
-        {            
-            if (_keyboardState.IsKeyDown(Keys.Escape))
-            {
-                Stop();
-            }
+        {
             _graph.Shader.SetFloat("u_time",time);
         }
         ColoredTexturedVertex[] GetCubeData()

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Libraries\GLWrapper\GLWrapper.csproj" />
+    <ProjectReference Include="..\..\..\Libraries\GLWrapper\GLWrapper.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

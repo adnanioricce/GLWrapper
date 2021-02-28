@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Libraries\GLWrapper\GLWrapper.csproj" />
+    <ProjectReference Include="..\..\..\Libraries\GLWrapper\GLWrapper.csproj" />
   </ItemGroup>
 
   <ItemGroup>

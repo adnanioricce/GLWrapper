@@ -41,18 +41,18 @@ namespace GLWrapper
                 var angle = MathHelper.Clamp(value, 1f, 89f);
                 _fov = MathHelper.DegreesToRadians(angle);
             } 
-        }               
+        }
+        public float Sensivity { get { return _sensivity; }}
         public Matrix4 Model { get; set; }
         public Matrix4 View { get { return Matrix4.LookAt(Position, Position + Front, Up); } }
         public Matrix4 Projection { get { return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(FovValue), AspectRatio, 0.01f, 100f); } }
-        public Vector3 Position { get; set; } = new Vector3(0.0f, 0.0f, 3.0f);
+        public Vector3 Position { get; set; } = new Vector3(0.0f, 0.0f, 6.0f);
         public Vector2 LastPosition { get; set; } = new Vector2(1.0f, 1.0f);
         public Vector3 Target { get; set; } = Vector3.Zero;
         public Vector3 Direction { get; set; }
         public Vector3 Up { get; set; } = Vector3.UnitY;
         public Vector3 Right { get; set; } = Vector3.UnitX;
-        public Vector3 Front { get; set; } = -Vector3.UnitZ;
-        // public int MyProperty { get; set; }
+        public Vector3 Front { get; set; } = -Vector3.UnitZ;        
         
         protected Camera(int width, int height)
         {
@@ -64,9 +64,10 @@ namespace GLWrapper
         }        
         public void Rotate(MouseState mouse,float time)
         {
+            LastPosition = new Vector2(mouse.X, mouse.Y);
             float deltaX = mouse.X - LastPosition.X;
             float deltaY = mouse.Y - LastPosition.Y;
-            LastPosition = new Vector2(mouse.X, mouse.Y);
+            
             Yaw += deltaX * _sensivity;
             Pitch -= deltaY * _sensivity;
         }

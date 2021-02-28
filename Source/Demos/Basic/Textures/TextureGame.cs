@@ -39,10 +39,6 @@ namespace Textures
         }
         public override void Update(float time)
         {
-            if (_keyboardState.IsKeyDown(Keys.Escape))
-            {
-                Stop();
-            }
             base.Update(time);
         }
 

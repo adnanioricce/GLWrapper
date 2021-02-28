@@ -55,11 +55,7 @@ namespace HelloTriangle
             base.Setup();
         }        
         public override void Update(float time)
-        {
-            if (_keyboardState.IsKeyDown(Keys.Escape))
-            {
-                Stop();
-            }
+        {            
             base.Update(time);
         }
         public override void Draw(float time)

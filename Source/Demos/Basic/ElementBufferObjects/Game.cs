@@ -56,8 +56,7 @@ namespace ElementBufferObjects
             vao.Bind();
             shader.SetVertexAttributes();
             vbo.Bind();
-            ebo.Bind();
-            // var ebo = ElementBuffer.CreateElementBuffer(indices);
+            ebo.Bind();            
             VertexArrayObject = vao;
             VertexBufferObject = vbo;
             ElementBufferObject = ebo;
@@ -65,11 +64,7 @@ namespace ElementBufferObjects
             base.Setup();
         }        
         public override void Update(float time)
-        {
-            if (_keyboardState.IsKeyDown(Keys.Escape))
-            {
-                Stop();
-            }
+        {            
             base.Update(time);
         }
         public override void Draw(float time)

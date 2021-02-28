@@ -15,9 +15,11 @@ namespace GLWrapper.Windows
 {
     public class BaseGame : IGame
     {
+        protected Vector2 _lastPos;
+        protected bool _firstMove = true;
         private readonly GameWindow _window;        
-        protected readonly KeyboardState _keyboardState;
-        protected readonly MouseState _mouseState;
+        protected readonly KeyboardState KeyboardState;
+        protected readonly MouseState MouseState;
         protected readonly Camera Camera;
         protected readonly Renderer Renderer;
         public bool IsFocused { get {return _window.IsFocused;}}        
@@ -48,8 +50,8 @@ namespace GLWrapper.Windows
                 Camera.FovValue -= e.OffsetY;
                 MouseWheel();
             };
-            _keyboardState = _window.KeyboardState;
-            _mouseState = _window.MouseState;
+            KeyboardState = _window.KeyboardState;
+            MouseState = _window.MouseState;
             Camera = Camera.CreateCamera(_window.Size.X,_window.Size.Y);
             Renderer = new Renderer();
         }
@@ -68,8 +70,23 @@ namespace GLWrapper.Windows
             _window.CursorVisible = false;
         }
         public virtual void Update(float time)
-        {            
-            Camera.Update(_keyboardState, _mouseState, time);            
+        {
+            if(KeyboardState.IsKeyDown(Keys.Escape)){
+                this.Stop();
+            }
+            if(_firstMove){
+                _lastPos = new Vector2(MouseState.X,MouseState.Y);
+                _firstMove = false;
+            }else {
+                var deltaX = MouseState.X - _lastPos.X;
+                var deltaY = MouseState.Y - _lastPos.Y;
+                _lastPos = new Vector2(MouseState.X, MouseState.Y);
+
+                // Apply the camera pitch and yaw (we clamp the pitch in the camera class)
+                Camera.Yaw += deltaX * Camera.Sensivity;
+                Camera.Pitch -= deltaY * Camera.Sensivity;
+            }
+            Camera.Update(KeyboardState, MouseState, time);
             LogExtensions.LogGLError();
         }
         public virtual void Draw(float time)
@@ -95,12 +112,17 @@ namespace GLWrapper.Windows
             if(!IsFocused){                
                 return;
             }
-            Camera.Update(_keyboardState,_mouseState);            
+            Camera.Update(KeyboardState,MouseState);
         }
 
         public virtual void MouseWheel()
         {            
             
+        }
+        public virtual void Resize()
+        {
+            GL.Viewport(0, 0, this._window.ClientSize.X,this._window.ClientSize.Y);
+            Camera.AspectRatio = this._window.ClientSize.X / (float)this._window.ClientSize.Y;
         }
     }
 }

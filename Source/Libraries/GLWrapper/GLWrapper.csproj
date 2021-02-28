@@ -28,6 +28,12 @@
     <EmbeddedResource Include="Resources\Shaders\Default3D\vertex.shader">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>      
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Shaders\Default3DTexture\vertex.shader">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Shaders\Default3DTexture\fragment.shader">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

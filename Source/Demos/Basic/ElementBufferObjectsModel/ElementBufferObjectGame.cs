@@ -39,7 +39,7 @@ namespace ElementBufferObjectsModel
         }        
         public override void Update(float time)
         {
-            if (_keyboardState.IsKeyDown(Keys.Escape))
+            if (KeyboardState.IsKeyDown(Keys.Escape))
             {
                 Stop();
             }
