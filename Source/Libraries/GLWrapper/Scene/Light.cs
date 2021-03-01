@@ -18,10 +18,13 @@ namespace GLWrapper
         public void Bind()
         {
             GL.BindVertexArray(this.Id);
-        }
+        }        
         public void UnBind()
         {
             GL.BindVertexArray(0);
+        }
+        public void BindBuffer(BufferTarget target,int bufferId){
+            GL.BindBuffer(target,bufferId);
         }        
         public static Light CreateLight()
         {

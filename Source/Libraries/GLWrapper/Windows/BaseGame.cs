@@ -22,7 +22,8 @@ namespace GLWrapper.Windows
         protected readonly MouseState MouseState;
         protected readonly Camera Camera;
         protected readonly Renderer Renderer;
-        public bool IsFocused { get {return _window.IsFocused;}}        
+        public bool IsFocused { get {return _window.IsFocused;}}
+        public bool IsCursorGrabbed { get {return _window.CursorGrabbed;}}
         public BaseGame(GameWindow window)
         {
             _window = window;
@@ -66,11 +67,16 @@ namespace GLWrapper.Windows
         {
             GL.Enable(EnableCap.Texture2D);
             GL.Enable(EnableCap.DebugOutput);
-            GL.DebugMessageCallback(LogExtensions.MessageCallBack, (IntPtr)0);
+            GL.DebugMessageCallback(LogExtensions.MessageCallBack, (IntPtr)0);        
             _window.CursorVisible = false;
+            _window.CursorGrabbed = true;
         }
         public virtual void Update(float time)
         {
+            if(!IsFocused){
+                _window.CursorGrabbed = false;
+                return;
+            }
             if(KeyboardState.IsKeyDown(Keys.Escape)){
                 this.Stop();
             }
