@@ -3,7 +3,17 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Libraries\GLWrapper\GLWrapper.csproj" />
   </ItemGroup>
-
+  <ItemGroup>    
+    <None Update="Assets\Shaders\vertex.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Shaders\lighting.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Shaders\fragment.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
