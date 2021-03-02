@@ -3,6 +3,8 @@ using GLWrapper.Windows;
 using OpenTK.Mathematics;
 using OpenTK.Graphics.OpenGL4;
 using GLWrapper.Graphics.Vertices;
+using System.Linq;
+using System;
 
 namespace BasicLighting
 {
@@ -12,6 +14,8 @@ namespace BasicLighting
         private Matrix4 _lampMatrix = Matrix4.Identity;
         private Light Lamp;
         private ShaderProgram _modelShader;
+        private float _time = 0.0f;
+        private bool goBack = false;
         public BasicLightingGame(int width,int height,string title) : base(width,height,title)
         {
             
@@ -19,10 +23,10 @@ namespace BasicLighting
         public override void Setup()
         {
             GL.Enable(EnableCap.DepthTest);
-            GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            GL.ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
             var vertexAttributes = new VertexAttribute[]{
-                new VertexAttribute("aPosition",3,VertexAttribPointerType.Float,ColoredTexturedVertex.Size, 0),
-                new VertexAttribute("aNormal",3,VertexAttribPointerType.Float,ColoredVertex.Size,3 * sizeof(float))
+                new VertexAttribute("aPosition",3,VertexAttribPointerType.Float,Vertex.Size, 0),
+                new VertexAttribute("aNormal",3,VertexAttribPointerType.Float,Vertex.Size,3 * sizeof(float))
             };
             var vbo = VertexBuffer.CreateVertexBuffer();
             vbo.LoadData(CubeVertices());
@@ -46,6 +50,8 @@ namespace BasicLighting
         }
          public override void Update(float time)
         {
+            // Lamp.Shader.Use();
+            
             base.Update(time);
         }
         public override void MouseMove()
@@ -55,70 +61,78 @@ namespace BasicLighting
         public override void Draw(float time)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            _modelVao.Bind();
+            _time += goBack ? -time : time;
+            
             Lamp.Shader.Use();
             Lamp.Shader.SetMatrix4("model",Matrix4.Identity);
             Lamp.Shader.SetMatrix4("view",Camera.View);
             Lamp.Shader.SetMatrix4("projection",Camera.Projection);
-            Lamp.Shader.SetVector3("objectColor", new Vector3(1.0f, 0.5f, 0.31f));
-            Lamp.Shader.SetVector3("lightColor", new Vector3(1.0f, 1.0f, 1.0f));
+            Lamp.Shader.SetVector3("objectColor", Lamp.Position);
+            Lamp.Shader.SetVector3("lightColor", new Vector3(_time)); 
+            Lamp.Shader.SetFloat("time",_time);
             Lamp.Shader.SetVector3("viewPos", Camera.Position);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
-            _modelVao.Bind();
+            Lamp.Shader.SetVector3("lightPos", Lamp.Position);
+            Lamp.Bind();
+            GL.DrawArrays(PrimitiveType.Triangles, 0, 36);            
             _modelShader.Use();
             var lampMatrix = Matrix4.Identity;
-            lampMatrix *= Matrix4.CreateScale(0.2f);
-            lampMatrix *= Matrix4.CreateTranslation(Lamp.Position);
+            lampMatrix *= Matrix4.CreateScale(0.5f);
+            lampMatrix *= Matrix4.CreateTranslation(Lamp.Position) * Matrix4.CreateRotationY((Lamp.Position * _time).X);
+            
             _modelShader.SetMatrix4("model", lampMatrix);
             _modelShader.SetMatrix4("view",Camera.View);
             _modelShader.SetMatrix4("projection",Camera.Projection);
+            _modelVao.Bind();
             GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
+            if(_time >= 360.0f || _time < 0.0f){
+                goBack = !goBack;
+            }
             base.Draw(time);
         }        
-        protected ColoredTexturedVertex[] CubeVertices()
+        protected Vertex[] CubeVertices()
         {
-            return new ColoredTexturedVertex[] {
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f, -0.5f), Color4.Violet ,new Vector2( 0.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f, -0.5f, -0.5f),Color4.Turquoise,new Vector2( 1.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f, -0.5f),Color4.SkyBlue, new Vector2(1.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f, -0.5f),Color4.Thistle, new Vector2(1.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f,  0.5f, -0.5f),Color4.Pink, new Vector2(0.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f, -0.5f),Color4.MediumSeaGreen, new Vector2(0.0f, 0.0f)),
+            return new Vertex[] {
+                new Vertex(new Vector3(-0.5f, -0.5f, -0.5f),new Vector3(0.0f,0.0f,-1.0f)),
+                new Vertex(new Vector3(0.5f, -0.5f, -0.5f),new Vector3(0.0f, 0.0f,-1.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f, -0.5f),new Vector3(0.0f, 0.0f,-1.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f, -0.5f),new Vector3(0.0f, 0.0f,-1.0f)),
+                new Vertex(new Vector3(-0.5f,  0.5f, -0.5f),new Vector3(0.0f, 0.0f,-1.0f)),
+                new Vertex(new Vector3(-0.5f, -0.5f, -0.5f),new Vector3(0.0f, 0.0f,-1.0f)),
 
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f,  0.5f), Color4.Navy,new Vector2(0.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f, -0.5f,  0.5f), Color4.Lavender, new Vector2(1.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f,  0.5f),Color4.Khaki, new Vector2(1.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f,  0.5f),Color4.Gainsboro, new Vector2(1.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f,  0.5f,  0.5f),Color4.Honeydew, new Vector2(0.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f,  0.5f),Color4.BurlyWood, new Vector2(0.0f, 0.0f)),
+                new Vertex(new Vector3(-0.5f, -0.5f,  0.5f),new Vector3(0.0f, 0.0f,1.0f)),
+                new Vertex(new Vector3(0.5f, -0.5f,  0.5f), new Vector3(0.0f, 0.0f,1.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f,  0.5f), new Vector3(0.0f, 0.0f,1.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f,  0.5f), new Vector3(0.0f, 0.0f,1.0f)),
+                new Vertex(new Vector3(-0.5f,  0.5f,  0.5f), new Vector3(0.0f, 0.0f,1.0f)),
+                new Vertex(new Vector3(-0.5f, -0.5f,  0.5f), new Vector3(0.0f, 0.0f,1.0f)),
 
-                new ColoredTexturedVertex(new Vector3(-0.5f,  0.5f,  0.5f),Color4.Crimson, new Vector2(1.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f,  0.5f, -0.5f),Color4.FloralWhite, new Vector2(1.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f, -0.5f),Color4.Linen, new Vector2(0.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f, -0.5f),Color4.Maroon, new Vector2(0.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f,  0.5f),Color4.PaleVioletRed, new Vector2(0.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f,  0.5f,  0.5f),Color4.Snow,new Vector2(1.0f, 0.0f)),
+                new Vertex(new Vector3(-0.5f,  0.5f,  0.5f),new Vector3(-1.0f, 0.0f,0.0f)),
+                new Vertex(new Vector3(-0.5f,  0.5f, -0.5f),new Vector3(-1.0f, 0.0f,0.0f)),
+                new Vertex(new Vector3(-0.5f, -0.5f, -0.5f),new Vector3(-1.0f, 0.0f,0.0f)),
+                new Vertex(new Vector3(-0.5f, -0.5f, -0.5f),new Vector3(-1.0f, 0.0f,0.0f)),
+                new Vertex(new Vector3(-0.5f, -0.5f,  0.5f),new Vector3(-1.0f, 0.0f,0.0f)),
+                new Vertex(new Vector3(-0.5f,  0.5f,  0.5f),new Vector3(-1.0f, 0.0f,0.0f)),
 
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f,  0.5f),Color4.Wheat, new Vector2(1.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f, -0.5f),Color4.SpringGreen, new Vector2(1.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f, -0.5f, -0.5f),Color4.RoyalBlue,new Vector2(0.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f, -0.5f, -0.5f),Color4.SaddleBrown,new Vector2(0.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f, -0.5f,  0.5f),Color4.PapayaWhip, new Vector2(0.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f,  0.5f),Color4.NavajoWhite, new Vector2(1.0f, 0.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f,  0.5f),new Vector3(1.0f, 0.0f,0.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f, -0.5f),new Vector3(1.0f, 0.0f,0.0f)),
+                new Vertex(new Vector3(0.5f, -0.5f, -0.5f),new Vector3(1.0f, 0.0f,0.0f)),
+                new Vertex(new Vector3(0.5f, -0.5f, -0.5f),new Vector3(1.0f, 0.0f,0.0f)),
+                new Vertex(new Vector3(0.5f, -0.5f,  0.5f),new Vector3(1.0f, 0.0f,0.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f,  0.5f),new Vector3(1.0f, 0.0f,0.0f)),
 
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f, -0.5f),Color4.OrangeRed, new Vector2(0.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f, -0.5f, -0.5f),Color4.PaleTurquoise, new Vector2(1.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f, -0.5f,  0.5f),Color4.Plum, new Vector2(1.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f, -0.5f,  0.5f),Color4.RosyBrown, new Vector2(1.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f,  0.5f),Color4.Salmon, new Vector2(0.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f, -0.5f),Color4.SteelBlue, new Vector2(0.0f, 1.0f)),
+                new Vertex(new Vector3(-0.5f, -0.5f, -0.5f),new Vector3(0.0f, -1.0f,0.0f)),
+                new Vertex(new Vector3(0.5f, -0.5f, -0.5f),new Vector3(0.0f, -1.0f,0.0f)),
+                new Vertex(new Vector3(0.5f, -0.5f,  0.5f),new Vector3(0.0f, -1.0f,0.0f)),
+                new Vertex(new Vector3(0.5f, -0.5f,  0.5f),new Vector3(0.0f, -1.0f,0.0f)),
+                new Vertex(new Vector3(-0.5f, -0.5f,  0.5f), new Vector3(0.0f, -1.0f,0.0f)),
+                new Vertex(new Vector3(-0.5f, -0.5f, -0.5f), new Vector3(0.0f, -1.0f,0.0f)),
 
-                new ColoredTexturedVertex(new Vector3(-0.5f,  0.5f, -0.5f),Color4.Yellow, new Vector2( 0.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f, -0.5f),Color4.Peru, new Vector2(1.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f,  0.5f),Color4.OldLace, new Vector2(1.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f,  0.5f),Color4.MintCream, new Vector2(1.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f,  0.5f,  0.5f),Color4.Moccasin, new Vector2(0.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f,  0.5f, -0.5f),Color4.LightPink, new Vector2(0.0f, 1.0f))
+                new Vertex(new Vector3(-0.5f,  0.5f, -0.5f), new Vector3(0.0f, 1.0f,0.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f, -0.5f), new Vector3(0.0f, 1.0f,0.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f,  0.5f), new Vector3(0.0f, 1.0f,0.0f)),
+                new Vertex(new Vector3(0.5f,  0.5f,  0.5f), new Vector3(0.0f, 1.0f,0.0f)),
+                new Vertex(new Vector3(-0.5f,  0.5f,  0.5f), new Vector3(0.0f, 1.0f,0.0f)),
+                new Vertex(new Vector3(-0.5f,  0.5f, -0.5f), new Vector3(0.0f, 1.0f,0.0f))
             };
         }
     }

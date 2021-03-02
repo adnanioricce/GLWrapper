@@ -82,51 +82,7 @@ namespace Colors
             _modelShader.Dispose();            
 
             base.Dispose();
-        }
-        protected ColoredTexturedVertex[] CubeVertices()
-        {
-            return new ColoredTexturedVertex[] {
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f, -0.5f), Color4.Violet ,new Vector2( 0.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f, -0.5f, -0.5f),Color4.Turquoise,new Vector2( 1.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f, -0.5f),Color4.SkyBlue, new Vector2(1.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f, -0.5f),Color4.Thistle, new Vector2(1.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f,  0.5f, -0.5f),Color4.Pink, new Vector2(0.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f, -0.5f),Color4.MediumSeaGreen, new Vector2(0.0f, 0.0f)),
-
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f,  0.5f), Color4.Navy,new Vector2(0.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f, -0.5f,  0.5f), Color4.Lavender, new Vector2(1.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f,  0.5f),Color4.Khaki, new Vector2(1.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f,  0.5f),Color4.Gainsboro, new Vector2(1.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f,  0.5f,  0.5f),Color4.Honeydew, new Vector2(0.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f,  0.5f),Color4.BurlyWood, new Vector2(0.0f, 0.0f)),
-
-                new ColoredTexturedVertex(new Vector3(-0.5f,  0.5f,  0.5f),Color4.Crimson, new Vector2(1.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f,  0.5f, -0.5f),Color4.FloralWhite, new Vector2(1.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f, -0.5f),Color4.Linen, new Vector2(0.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f, -0.5f),Color4.Maroon, new Vector2(0.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f,  0.5f),Color4.PaleVioletRed, new Vector2(0.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f,  0.5f,  0.5f),Color4.Snow,new Vector2(1.0f, 0.0f)),
-
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f,  0.5f),Color4.Wheat, new Vector2(1.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f, -0.5f),Color4.SpringGreen, new Vector2(1.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f, -0.5f, -0.5f),Color4.RoyalBlue,new Vector2(0.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f, -0.5f, -0.5f),Color4.SaddleBrown,new Vector2(0.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f, -0.5f,  0.5f),Color4.PapayaWhip, new Vector2(0.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f,  0.5f),Color4.NavajoWhite, new Vector2(1.0f, 0.0f)),
-
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f, -0.5f),Color4.OrangeRed, new Vector2(0.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f, -0.5f, -0.5f),Color4.PaleTurquoise, new Vector2(1.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f, -0.5f,  0.5f),Color4.Plum, new Vector2(1.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f, -0.5f,  0.5f),Color4.RosyBrown, new Vector2(1.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f,  0.5f),Color4.Salmon, new Vector2(0.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f, -0.5f, -0.5f),Color4.SteelBlue, new Vector2(0.0f, 1.0f)),
-
-                new ColoredTexturedVertex(new Vector3(-0.5f,  0.5f, -0.5f),Color4.Yellow, new Vector2( 0.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f, -0.5f),Color4.Peru, new Vector2(1.0f, 1.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f,  0.5f),Color4.OldLace, new Vector2(1.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(0.5f,  0.5f,  0.5f),Color4.MintCream, new Vector2(1.0f, 0.0f)),
-                new ColoredTexturedVertex(new Vector3(-0.5f,  0.5f,  0.5f),Color4.Moccasin, new Vector2(0.0f, 0.0f)),
-                new ColoredTexturedVertex
+        }        
         protected ColoredTexturedVertex[] CubeVertices()
         {
             return new ColoredTexturedVertex[] {

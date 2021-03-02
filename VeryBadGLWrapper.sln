@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Colors", "Source\Demos\Ligh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicLighting", "Source\Demos\Lighting\BasicLighting\BasicLighting.csproj", "{6D0F0240-6628-4B57-B65C-8F071AFB5493}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Material", "Source\Demos\Lighting\Material\Material.csproj", "{F6408978-92AF-4BAE-95FC-67A19A8D76C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -223,6 +225,18 @@ Global
 		{6D0F0240-6628-4B57-B65C-8F071AFB5493}.Release|x64.Build.0 = Release|Any CPU
 		{6D0F0240-6628-4B57-B65C-8F071AFB5493}.Release|x86.ActiveCfg = Release|Any CPU
 		{6D0F0240-6628-4B57-B65C-8F071AFB5493}.Release|x86.Build.0 = Release|Any CPU
+		{F6408978-92AF-4BAE-95FC-67A19A8D76C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6408978-92AF-4BAE-95FC-67A19A8D76C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6408978-92AF-4BAE-95FC-67A19A8D76C7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F6408978-92AF-4BAE-95FC-67A19A8D76C7}.Debug|x64.Build.0 = Debug|Any CPU
+		{F6408978-92AF-4BAE-95FC-67A19A8D76C7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F6408978-92AF-4BAE-95FC-67A19A8D76C7}.Debug|x86.Build.0 = Debug|Any CPU
+		{F6408978-92AF-4BAE-95FC-67A19A8D76C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6408978-92AF-4BAE-95FC-67A19A8D76C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6408978-92AF-4BAE-95FC-67A19A8D76C7}.Release|x64.ActiveCfg = Release|Any CPU
+		{F6408978-92AF-4BAE-95FC-67A19A8D76C7}.Release|x64.Build.0 = Release|Any CPU
+		{F6408978-92AF-4BAE-95FC-67A19A8D76C7}.Release|x86.ActiveCfg = Release|Any CPU
+		{F6408978-92AF-4BAE-95FC-67A19A8D76C7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -248,6 +262,7 @@ Global
 		{474919A9-C93C-43F2-85AA-340A4F9D90C5} = {CC85BB43-66CD-4730-ACA2-25DF11DD352D}
 		{05CE3D21-B167-4CB1-AF54-8B6260865278} = {474919A9-C93C-43F2-85AA-340A4F9D90C5}
 		{6D0F0240-6628-4B57-B65C-8F071AFB5493} = {474919A9-C93C-43F2-85AA-340A4F9D90C5}
+		{F6408978-92AF-4BAE-95FC-67A19A8D76C7} = {474919A9-C93C-43F2-85AA-340A4F9D90C5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1EDE8018-4844-4B8D-9B6C-AFFE85622F61}
