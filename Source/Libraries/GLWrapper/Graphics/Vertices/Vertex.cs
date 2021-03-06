@@ -8,7 +8,7 @@ using System.Text;
 namespace GLWrapper.Graphics.Vertices
 {
     /// <summary>
-    /// Vertex holding only a Position Vector. Has size of 12 bytes
+    /// Vertex holding only a Position and Normal Vector. Has size of 24 bytes
     /// </summary>
     public struct Vertex
     {

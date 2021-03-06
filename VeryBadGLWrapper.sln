@@ -15,37 +15,37 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GLWrapper", "Source\Librari
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloTriangle", "Source\Demos\Basic\HelloTriangle\HelloTriangle.csproj", "{842599A6-0668-4185-B34E-4A38D042D337}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloTriangleModel", "Source\Demos\Basic\HelloTriangleModel\HelloTriangleModel.csproj", "{6A2CCC33-1E0E-4468-96A7-AE04D9C96A02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloTriangleModel", "Source\Demos\Basic\HelloTriangleModel\HelloTriangleModel.csproj", "{6A2CCC33-1E0E-4468-96A7-AE04D9C96A02}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{ABF5BF35-4C76-4061-81A5-A72DB5CBE6E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GLWrapper.Tests", "Tests\GLWrapper.Tests\GLWrapper.Tests.csproj", "{0B28C5D4-967A-4EB9-8320-F85F86FF673C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GLWrapper.Tests", "Tests\GLWrapper.Tests\GLWrapper.Tests.csproj", "{0B28C5D4-967A-4EB9-8320-F85F86FF673C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElementBufferObjects", "Source\Demos\Basic\ElementBufferObjects\ElementBufferObjects.csproj", "{91E9FAAC-F609-4879-AA0E-30FA882E6E93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElementBufferObjects", "Source\Demos\Basic\ElementBufferObjects\ElementBufferObjects.csproj", "{91E9FAAC-F609-4879-AA0E-30FA882E6E93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElementBufferObjectsModel", "Source\Demos\Basic\ElementBufferObjectsModel\ElementBufferObjectsModel.csproj", "{216338B3-E7D7-4BB2-BCB7-85256C625A3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElementBufferObjectsModel", "Source\Demos\Basic\ElementBufferObjectsModel\ElementBufferObjectsModel.csproj", "{216338B3-E7D7-4BB2-BCB7-85256C625A3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleShader", "Source\Demos\Basic\SimpleShader\SimpleShader.csproj", "{5D49309D-A503-4DA6-BFA6-F98CC4075E90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleShader", "Source\Demos\Basic\SimpleShader\SimpleShader.csproj", "{5D49309D-A503-4DA6-BFA6-F98CC4075E90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Textures", "Source\Demos\Basic\Textures\Textures.csproj", "{CF83383F-13D3-49DA-B877-E47D87F9856B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Textures", "Source\Demos\Basic\Textures\Textures.csproj", "{CF83383F-13D3-49DA-B877-E47D87F9856B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleTextures", "Source\Demos\Basic\MultipleTextures\MultipleTextures.csproj", "{DEBCA464-7876-4917-A7D9-8DA8B45AA045}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultipleTextures", "Source\Demos\Basic\MultipleTextures\MultipleTextures.csproj", "{DEBCA464-7876-4917-A7D9-8DA8B45AA045}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transformations", "Source\Demos\Basic\Transformations\Transformations.csproj", "{3962B683-0AE1-4831-9E73-382D930F6555}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transformations", "Source\Demos\Basic\Transformations\Transformations.csproj", "{3962B683-0AE1-4831-9E73-382D930F6555}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basic", "Basic", "{0FA7EF0C-FC97-4F30-BA05-9DC4FF6FC10C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Camera", "Source\Demos\Basic\Camera\Camera.csproj", "{FE7D088C-F11D-4F3B-9F5D-D6EC1754EB5C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lightning", "Lightning", "{E130ACD0-7A09-11EB-9F75-5DE7C1240FE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Camera", "Source\Demos\Basic\Camera\Camera.csproj", "{FE7D088C-F11D-4F3B-9F5D-D6EC1754EB5C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lighting", "Lighting", "{474919A9-C93C-43F2-85AA-340A4F9D90C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Colors", "Source\Demos\Lighting\Colors\Colors.csproj", "{05CE3D21-B167-4CB1-AF54-8B6260865278}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Colors", "Source\Demos\Lighting\Colors\Colors.csproj", "{05CE3D21-B167-4CB1-AF54-8B6260865278}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicLighting", "Source\Demos\Lighting\BasicLighting\BasicLighting.csproj", "{6D0F0240-6628-4B57-B65C-8F071AFB5493}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicLighting", "Source\Demos\Lighting\BasicLighting\BasicLighting.csproj", "{6D0F0240-6628-4B57-B65C-8F071AFB5493}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Material", "Source\Demos\Lighting\Material\Material.csproj", "{F6408978-92AF-4BAE-95FC-67A19A8D76C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Material", "Source\Demos\Lighting\Material\Material.csproj", "{F6408978-92AF-4BAE-95FC-67A19A8D76C7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightingMaps", "Source\Demos\Lighting\LightingMaps\LightingMaps.csproj", "{6DF3020C-584A-41EE-97A7-E962BB5C31BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -237,12 +237,23 @@ Global
 		{F6408978-92AF-4BAE-95FC-67A19A8D76C7}.Release|x64.Build.0 = Release|Any CPU
 		{F6408978-92AF-4BAE-95FC-67A19A8D76C7}.Release|x86.ActiveCfg = Release|Any CPU
 		{F6408978-92AF-4BAE-95FC-67A19A8D76C7}.Release|x86.Build.0 = Release|Any CPU
+		{6DF3020C-584A-41EE-97A7-E962BB5C31BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DF3020C-584A-41EE-97A7-E962BB5C31BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DF3020C-584A-41EE-97A7-E962BB5C31BE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6DF3020C-584A-41EE-97A7-E962BB5C31BE}.Debug|x64.Build.0 = Debug|Any CPU
+		{6DF3020C-584A-41EE-97A7-E962BB5C31BE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6DF3020C-584A-41EE-97A7-E962BB5C31BE}.Debug|x86.Build.0 = Debug|Any CPU
+		{6DF3020C-584A-41EE-97A7-E962BB5C31BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DF3020C-584A-41EE-97A7-E962BB5C31BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DF3020C-584A-41EE-97A7-E962BB5C31BE}.Release|x64.ActiveCfg = Release|Any CPU
+		{6DF3020C-584A-41EE-97A7-E962BB5C31BE}.Release|x64.Build.0 = Release|Any CPU
+		{6DF3020C-584A-41EE-97A7-E962BB5C31BE}.Release|x86.ActiveCfg = Release|Any CPU
+		{6DF3020C-584A-41EE-97A7-E962BB5C31BE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E130ACD0-7A09-11EB-9F75-5DE7C1240FE6} = {CC85BB43-66CD-4730-ACA2-25DF11DD352D}
 		{0FC7D689-F253-4491-84E4-9BA293CC13E5} = {E63D4DBC-ADBD-463F-996F-8F8A802204B2}
 		{CC85BB43-66CD-4730-ACA2-25DF11DD352D} = {E63D4DBC-ADBD-463F-996F-8F8A802204B2}
 		{B95E8C34-1179-4C1B-B15D-0139FEC594CA} = {CC85BB43-66CD-4730-ACA2-25DF11DD352D}
@@ -263,6 +274,7 @@ Global
 		{05CE3D21-B167-4CB1-AF54-8B6260865278} = {474919A9-C93C-43F2-85AA-340A4F9D90C5}
 		{6D0F0240-6628-4B57-B65C-8F071AFB5493} = {474919A9-C93C-43F2-85AA-340A4F9D90C5}
 		{F6408978-92AF-4BAE-95FC-67A19A8D76C7} = {474919A9-C93C-43F2-85AA-340A4F9D90C5}
+		{6DF3020C-584A-41EE-97A7-E962BB5C31BE} = {474919A9-C93C-43F2-85AA-340A4F9D90C5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1EDE8018-4844-4B8D-9B6C-AFFE85622F61}
